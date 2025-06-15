@@ -59,7 +59,7 @@ def logout():
 def home():
     return render_template('home.html')
 
-# Student CRUD
+# Students
 @app.route('/students')
 def students():
     students = Student.query.all()
@@ -67,17 +67,16 @@ def students():
 
 @app.route('/add_student', methods=['POST'])
 def add_student():
-    name = request.form['name']
-    standard = request.form['standard']
-    admission_fee_paid = 'admission_fee_paid' in request.form
-    activities = request.form['activities']
-    marks = request.form['marks']
-    extra_fee = float(request.form['extra_fee'])
-    parent_notification = request.form['parent_notification']
-    attendance = request.form['attendance']
-    student = Student(name=name, standard=standard, admission_fee_paid=admission_fee_paid,
-                      activities=activities, marks=marks, extra_fee=extra_fee,
-                      parent_notification=parent_notification, attendance=attendance)
+    student = Student(
+        name=request.form['name'],
+        standard=request.form['standard'],
+        admission_fee_paid='admission_fee_paid' in request.form,
+        activities=request.form['activities'],
+        marks=request.form['marks'],
+        extra_fee=float(request.form['extra_fee']),
+        parent_notification=request.form['parent_notification'],
+        attendance=request.form['attendance']
+    )
     db.session.add(student)
     db.session.commit()
     return redirect(url_for('students'))
@@ -103,7 +102,7 @@ def delete_student(id):
     db.session.commit()
     return redirect(url_for('students'))
 
-# Staff CRUD
+# Staff
 @app.route('/staff')
 def staff():
     staff_list = Staff.query.all()
@@ -111,11 +110,12 @@ def staff():
 
 @app.route('/add_staff', methods=['POST'])
 def add_staff():
-    name = request.form['name']
-    subject = request.form['subject']
-    salary = float(request.form['salary'])
-    attendance = request.form['attendance']
-    staff = Staff(name=name, subject=subject, salary=salary, attendance=attendance)
+    staff = Staff(
+        name=request.form['name'],
+        subject=request.form['subject'],
+        salary=float(request.form['salary']),
+        attendance=request.form['attendance']
+    )
     db.session.add(staff)
     db.session.commit()
     return redirect(url_for('staff'))
@@ -137,7 +137,7 @@ def delete_staff(id):
     db.session.commit()
     return redirect(url_for('staff'))
 
-# Committee CRUD
+# Committee
 @app.route('/committee')
 def committee():
     committee_list = Committee.query.all()
@@ -145,10 +145,11 @@ def committee():
 
 @app.route('/add_committee', methods=['POST'])
 def add_committee():
-    member_name = request.form['member_name']
-    role = request.form['role']
-    expenditure = float(request.form['expenditure'])
-    committee = Committee(member_name=member_name, role=role, expenditure=expenditure)
+    committee = Committee(
+        member_name=request.form['member_name'],
+        role=request.form['role'],
+        expenditure=float(request.form['expenditure'])
+    )
     db.session.add(committee)
     db.session.commit()
     return redirect(url_for('committee'))
@@ -169,7 +170,7 @@ def delete_committee(id):
     db.session.commit()
     return redirect(url_for('committee'))
 
-# Finance CRUD
+# Finance
 @app.route('/finance')
 def finance():
     finance_list = Finance.query.all()
@@ -177,9 +178,10 @@ def finance():
 
 @app.route('/add_finance', methods=['POST'])
 def add_finance():
-    total_income = float(request.form['total_income'])
-    total_expenditure = float(request.form['total_expenditure'])
-    finance = Finance(total_income=total_income, total_expenditure=total_expenditure)
+    finance = Finance(
+        total_income=float(request.form['total_income']),
+        total_expenditure=float(request.form['total_expenditure'])
+    )
     db.session.add(finance)
     db.session.commit()
     return redirect(url_for('finance'))
@@ -199,9 +201,8 @@ def delete_finance(id):
     db.session.commit()
     return redirect(url_for('finance'))
 
-# Run with auto browser open
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # Auto create school.db
-    webbrowser.open('http://127.0.0.1:5000/')  # Auto browser open
+        db.create_all()
+    webbrowser.open('http://127.0.0.1:5000/')
     app.run(debug=True)
