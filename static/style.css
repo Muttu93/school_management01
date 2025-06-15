@@ -1,0 +1,64 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f8ff;
+  color: #333;
+  padding: 20px;
+}
+h2 {
+  color: #2c3e50;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+th {
+  background: #3498db;
+  color: white;
+}
+.nav {
+  background: #3498db;
+  padding: 10px;
+  color: white;
+}
+.nav a {
+  margin: 0 10px;
+  color: #fff;
+  text-decoration: none;
+}
+.nav-links {
+  float: right;
+}
+input, select, button {
+  padding: 8px;
+  margin: 5px;
+  border: 1px solid #ccc;
+}
+button {
+  background: #3498db;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+button:hover {
+  background: #2980b9;
+}
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.login-box {
+  background: #ecf0f1;
+  padding: 20px;
+  border-radius: 8px;
+}
+.error {
+  color: red;
+}
