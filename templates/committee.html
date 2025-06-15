@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Committee</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h2>Committee Members</h2>
+  <a href="{{ url_for('add_committee') }}">+ Add Committee Member</a>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th><th>Role</th><th>Expenditure</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in committee %}
+      <tr>
+        <td>{{ c.name }}</td>
+        <td>{{ c.role }}</td>
+        <td>{{ c.expenditure }}</td>
+        <td>
+          <a href="{{ url_for('edit_committee', id=c.id) }}">Edit</a> |
+          <a href="{{ url_for('delete_committee', id=c.id) }}">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>
