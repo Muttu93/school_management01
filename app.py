@@ -1,57 +1,45 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 import os
 import webbrowser
 
-# Flask app setup
 app = Flask(__name__)
-app.secret_key = "your_secret_key"  # Change this to something secure
-
-# File upload configuration
-UPLOAD_FOLDER = 'static/uploads'
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
-
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.secret_key = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///school.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# Database setup
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
 db = SQLAlchemy(app)
 
-# Student Model
+# Student model
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     standard = db.Column(db.String(50))
-    fee_status = db.Column(db.String(20))
-    activities = db.Column(db.Text)
-    marks = db.Column(db.String(20))
-    file = db.Column(db.String(100))
+    fees_paid = db.Column(db.String(10))
+    activity = db.Column(db.String(200))
+    marks = db.Column(db.String(50))
 
-# Staff Model
+# Staff model
 class Staff(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     subject = db.Column(db.String(100))
     salary = db.Column(db.String(50))
-    attendance = db.Column(db.String(20))
+    attendance = db.Column(db.String(100))
 
-# Committee Model
+# Committee model
 class Committee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     role = db.Column(db.String(100))
-    expenditure = db.Column(db.String(50))
+    expenditure = db.Column(db.String(100))
 
-# Finance Model
+# Finance model
 class Finance(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    fees_collected = db.Column(db.String(50))
-    expenses = db.Column(db.String(50))
-    turnover = db.Column(db.String(50))
+    total_income = db.Column(db.String(100))
+    total_expense = db.Column(db.String(100))
+    description = db.Column(db.String(200))
 
-# Home / Login
 @app.route("/", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -63,35 +51,34 @@ def login():
             flash('Invalid credentials. Try again.')
     return render_template('login.html')
 
-# Home Page (School Introduction)
+@app.route('/logout')
+def logout():
+    flash('You have been logged out successfully!')
+    return redirect(url_for('login'))
+
 @app.route("/home")
 def home():
     return render_template('home.html')
 
-# Student CRUD
 @app.route("/students")
 def students():
     students = Student.query.all()
     return render_template('students.html', students=students)
 
-@app.route("/add_student", methods=['POST'])
+@app.route("/add_student", methods=['GET', 'POST'])
 def add_student():
-    name = request.form['name']
-    standard = request.form['standard']
-    fee_status = request.form['fee_status']
-    activities = request.form['activities']
-    marks = request.form['marks']
-    file = request.files['file']
-    filename = ""
-    if file:
-        filename = file.filename
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    student = Student(name=name, standard=standard, fee_status=fee_status,
-                      activities=activities, marks=marks, file=filename)
-    db.session.add(student)
-    db.session.commit()
-    flash('Student added successfully!')
-    return redirect(url_for('students'))
+    if request.method == 'POST':
+        name = request.form['name']
+        standard = request.form['standard']
+        fees_paid = request.form['fees_paid']
+        activity = request.form['activity']
+        marks = request.form['marks']
+        student = Student(name=name, standard=standard, fees_paid=fees_paid, activity=activity, marks=marks)
+        db.session.add(student)
+        db.session.commit()
+        flash('Student added successfully!')
+        return redirect(url_for('students'))
+    return render_template('add_student.html')
 
 @app.route("/edit_student/<int:id>", methods=['GET', 'POST'])
 def edit_student(id):
@@ -99,18 +86,13 @@ def edit_student(id):
     if request.method == 'POST':
         student.name = request.form['name']
         student.standard = request.form['standard']
-        student.fee_status = request.form['fee_status']
-        student.activities = request.form['activities']
+        student.fees_paid = request.form['fees_paid']
+        student.activity = request.form['activity']
         student.marks = request.form['marks']
-        file = request.files['file']
-        if file and file.filename != '':
-            filename = file.filename
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            student.file = filename
         db.session.commit()
         flash('Student updated successfully!')
         return redirect(url_for('students'))
-    return render_template('edit_student.html', student=student)
+    return render_template('add_student.html', student=student)
 
 @app.route("/delete_student/<int:id>")
 def delete_student(id):
@@ -120,23 +102,25 @@ def delete_student(id):
     flash('Student deleted successfully!')
     return redirect(url_for('students'))
 
-# Staff CRUD
+# Staff Routes
 @app.route("/staff")
 def staff():
     staff = Staff.query.all()
     return render_template('staff.html', staff=staff)
 
-@app.route("/add_staff", methods=['POST'])
+@app.route("/add_staff", methods=['GET', 'POST'])
 def add_staff():
-    name = request.form['name']
-    subject = request.form['subject']
-    salary = request.form['salary']
-    attendance = request.form['attendance']
-    staff_member = Staff(name=name, subject=subject, salary=salary, attendance=attendance)
-    db.session.add(staff_member)
-    db.session.commit()
-    flash('Staff member added!')
-    return redirect(url_for('staff'))
+    if request.method == 'POST':
+        name = request.form['name']
+        subject = request.form['subject']
+        salary = request.form['salary']
+        attendance = request.form['attendance']
+        staff_member = Staff(name=name, subject=subject, salary=salary, attendance=attendance)
+        db.session.add(staff_member)
+        db.session.commit()
+        flash('Staff added successfully!')
+        return redirect(url_for('staff'))
+    return render_template('add_staff.html')
 
 @app.route("/edit_staff/<int:id>", methods=['GET', 'POST'])
 def edit_staff(id):
@@ -147,34 +131,36 @@ def edit_staff(id):
         staff_member.salary = request.form['salary']
         staff_member.attendance = request.form['attendance']
         db.session.commit()
-        flash('Staff member updated!')
+        flash('Staff updated successfully!')
         return redirect(url_for('staff'))
-    return render_template('edit_staff.html', staff=staff_member)
+    return render_template('add_staff.html', staff=staff_member)
 
 @app.route("/delete_staff/<int:id>")
 def delete_staff(id):
     staff_member = Staff.query.get(id)
     db.session.delete(staff_member)
     db.session.commit()
-    flash('Staff member deleted!')
+    flash('Staff deleted successfully!')
     return redirect(url_for('staff'))
 
-# Committee CRUD
+# Committee Routes
 @app.route("/committee")
 def committee():
     committee = Committee.query.all()
     return render_template('committee.html', committee=committee)
 
-@app.route("/add_committee", methods=['POST'])
+@app.route("/add_committee", methods=['GET', 'POST'])
 def add_committee():
-    name = request.form['name']
-    role = request.form['role']
-    expenditure = request.form['expenditure']
-    committee_member = Committee(name=name, role=role, expenditure=expenditure)
-    db.session.add(committee_member)
-    db.session.commit()
-    flash('Committee member added!')
-    return redirect(url_for('committee'))
+    if request.method == 'POST':
+        name = request.form['name']
+        role = request.form['role']
+        expenditure = request.form['expenditure']
+        committee_member = Committee(name=name, role=role, expenditure=expenditure)
+        db.session.add(committee_member)
+        db.session.commit()
+        flash('Committee member added successfully!')
+        return redirect(url_for('committee'))
+    return render_template('add_committee.html')
 
 @app.route("/edit_committee/<int:id>", methods=['GET', 'POST'])
 def edit_committee(id):
@@ -184,66 +170,63 @@ def edit_committee(id):
         committee_member.role = request.form['role']
         committee_member.expenditure = request.form['expenditure']
         db.session.commit()
-        flash('Committee member updated!')
+        flash('Committee member updated successfully!')
         return redirect(url_for('committee'))
-    return render_template('edit_committee.html', committee=committee_member)
+    return render_template('add_committee.html', committee=committee_member)
 
 @app.route("/delete_committee/<int:id>")
 def delete_committee(id):
     committee_member = Committee.query.get(id)
     db.session.delete(committee_member)
     db.session.commit()
-    flash('Committee member deleted!')
+    flash('Committee member deleted successfully!')
     return redirect(url_for('committee'))
 
-# Finance CRUD
+# Finance Routes
 @app.route("/finance")
 def finance():
     finance = Finance.query.all()
     return render_template('finance.html', finance=finance)
 
-@app.route("/add_finance", methods=['POST'])
+@app.route("/add_finance", methods=['GET', 'POST'])
 def add_finance():
-    fees_collected = request.form['fees_collected']
-    expenses = request.form['expenses']
-    turnover = request.form['turnover']
-    finance_entry = Finance(fees_collected=fees_collected, expenses=expenses, turnover=turnover)
-    db.session.add(finance_entry)
-    db.session.commit()
-    flash('Finance record added!')
-    return redirect(url_for('finance'))
+    if request.method == 'POST':
+        total_income = request.form['total_income']
+        total_expense = request.form['total_expense']
+        description = request.form['description']
+        finance_record = Finance(total_income=total_income, total_expense=total_expense, description=description)
+        db.session.add(finance_record)
+        db.session.commit()
+        flash('Finance record added successfully!')
+        return redirect(url_for('finance'))
+    return render_template('add_finance.html')
 
 @app.route("/edit_finance/<int:id>", methods=['GET', 'POST'])
 def edit_finance(id):
-    finance_entry = Finance.query.get(id)
+    finance_record = Finance.query.get(id)
     if request.method == 'POST':
-        finance_entry.fees_collected = request.form['fees_collected']
-        finance_entry.expenses = request.form['expenses']
-        finance_entry.turnover = request.form['turnover']
+        finance_record.total_income = request.form['total_income']
+        finance_record.total_expense = request.form['total_expense']
+        finance_record.description = request.form['description']
         db.session.commit()
-        flash('Finance record updated!')
+        flash('Finance record updated successfully!')
         return redirect(url_for('finance'))
-    return render_template('edit_finance.html', finance=finance_entry)
+    return render_template('add_finance.html', finance=finance_record)
 
 @app.route("/delete_finance/<int:id>")
 def delete_finance(id):
-    finance_entry = Finance.query.get(id)
-    db.session.delete(finance_entry)
+    finance_record = Finance.query.get(id)
+    db.session.delete(finance_record)
     db.session.commit()
-    flash('Finance record deleted!')
+    flash('Finance record deleted successfully!')
     return redirect(url_for('finance'))
 
-# File Download
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+# Auto open browser
+@app.before_first_request
+def open_browser():
+    webbrowser.open_new("http://127.0.0.1:5000/")
 
-# Run and auto open browser
 if __name__ == "__main__":
-    with app.app_context():
+    if not os.path.exists('school.db'):
         db.create_all()
-    port = 5000
-    url = f"http://127.0.0.1:{port}"
-    print(f"Server running on {url}")
-    webbrowser.open(url)
-    app.run(debug=True, port=port)
+    app.run(debug=True)
