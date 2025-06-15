@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Add Student</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h2>Add New Student</h2>
+  <form method="POST" enctype="multipart/form-data">
+    <input type="text" name="name" placeholder="Name" required>
+    <select name="standard" required>
+      <option value="">Select Standard</option>
+      {% for std in ['1st', '2nd', '3rd', '4th'] %}
+      <option value="{{ std }}">{{ std }}</option>
+      {% endfor %}
+    </select>
+    <input type="text" name="fee_status" placeholder="Fee Status (Paid/Pending)" required>
+    <input type="text" name="activities" placeholder="Activities">
+    <input type="text" name="marks" placeholder="Marks">
+    <input type="file" name="file">
+    <button type="submit">Add Student</button>
+  </form>
+</body>
+</html>
