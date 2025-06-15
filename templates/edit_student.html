@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Student</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h2>Edit Student</h2>
+  <form method="POST" enctype="multipart/form-data">
+    <input type="text" name="name" value="{{ student.name }}" required>
+    <input type="text" name="standard" value="{{ student.standard }}" required>
+    <input type="text" name="fee_status" value="{{ student.fee_status }}" required>
+    <input type="text" name="activities" value="{{ student.activities }}">
+    <input type="text" name="marks" value="{{ student.marks }}">
+    <input type="file" name="file">
+    <button type="submit">Update</button>
+  </form>
+</body>
+</html>
