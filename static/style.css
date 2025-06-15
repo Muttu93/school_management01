@@ -1,64 +1,60 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f0f8ff;
-  color: #333;
-  padding: 20px;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #d3cce3, #e9e4f0);
+    text-align: center;
+    padding: 20px;
 }
-h2 {
-  color: #2c3e50;
+
+h1, h2 {
+    color: #4b0082;
 }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-th, td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: center;
-}
-th {
-  background: #3498db;
-  color: white;
-}
+
 .nav {
-  background: #3498db;
-  padding: 10px;
-  color: white;
+    margin-bottom: 20px;
 }
+
 .nav a {
-  margin: 0 10px;
-  color: #fff;
-  text-decoration: none;
+    margin: 0 15px;
+    text-decoration: none;
+    color: #4b0082;
+    font-weight: bold;
 }
-.nav-links {
-  float: right;
+
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 80%;
 }
-input, select, button {
-  padding: 8px;
-  margin: 5px;
-  border: 1px solid #ccc;
+
+th, td {
+    border: 1px solid #999;
+    padding: 10px;
+    background-color: #f0f0f0;
 }
+
 button {
-  background: #3498db;
-  color: white;
-  border: none;
-  cursor: pointer;
+    padding: 10px 20px;
+    background-color: #4b0082;
+    color: #fff;
+    border: none;
+    cursor: pointer;
 }
-button:hover {
-  background: #2980b9;
+
+input {
+    padding: 8px;
+    margin: 5px;
 }
-.login-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+
+.msg {
+    color: red;
+    margin-top: 10px;
 }
-.login-box {
-  background: #ecf0f1;
-  padding: 20px;
-  border-radius: 8px;
-}
-.error {
-  color: red;
+
+.login-container {
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 2px solid #4b0082;
+    border-radius: 10px;
+    background-color: #fff;
 }
