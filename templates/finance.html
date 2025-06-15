@@ -1,36 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Finance - School Management</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+<head><title>Finance Management</title></head>
 <body>
-<div class="nav">
-    <a href="{{ url_for('home') }}">Home</a>
-    <a href="{{ url_for('add_finance') }}">Add Finance Record</a>
-    <a href="{{ url_for('logout') }}">Logout</a>
-</div>
+    <h2>Finance Management</h2>
+    <form action="/add_finance" method="POST">
+        <input name="total_income" placeholder="Total Income" required>
+        <input name="total_expenditure" placeholder="Total Expenditure" required>
+        <button type="submit">Add Finance Record</button>
+    </form>
 
-<h2>Finance Records</h2>
-<table>
-    <tr>
-        <th>Total Income</th>
-        <th>Total Expense</th>
-        <th>Description</th>
-        <th>Actions</th>
-    </tr>
+    <ul>
     {% for f in finance %}
-    <tr>
-        <td>{{ f.total_income }}</td>
-        <td>{{ f.total_expense }}</td>
-        <td>{{ f.description }}</td>
-        <td>
-            <a href="{{ url_for('edit_finance', id=f.id) }}">Edit</a>
-            <a href="{{ url_for('delete_finance', id=f.id) }}">Delete</a>
-        </td>
-    </tr>
+        <li>Total Income: {{ f.total_income }} | Expenditure: {{ f.total_expenditure }}
+            <form action="/update_finance/{{f.id}}" method="POST">
+                <input name="total_income" value="{{f.total_income}}">
+                <input name="total_expenditure" value="{{f.total_expenditure}}">
+                <button type="submit">Update</button>
+            </form>
+            <a href="/delete_finance/{{f.id}}">Delete</a>
+        </li>
     {% endfor %}
-</table>
+    </ul>
+
+    <a href="/home">Back to Home</a>
 </body>
 </html>
