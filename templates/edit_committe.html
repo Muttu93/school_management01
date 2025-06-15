@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Committee Member</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h2>Edit Committee Member</h2>
+  <form method="POST">
+    <input type="text" name="name" value="{{ committee.name }}" required>
+    <input type="text" name="role" value="{{ committee.role }}" required>
+    <input type="number" name="expenditure" value="{{ committee.expenditure }}" required>
+    <button type="submit">Update Member</button>
+  </form>
+</body>
+</html>
