@@ -1,36 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Committee - School Management</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+<head><title>Committee Management</title></head>
 <body>
-<div class="nav">
-    <a href="{{ url_for('home') }}">Home</a>
-    <a href="{{ url_for('add_committee') }}">Add Committee Member</a>
-    <a href="{{ url_for('logout') }}">Logout</a>
-</div>
+    <h2>Committee Management</h2>
+    <form action="/add_committee" method="POST">
+        <input name="member_name" placeholder="Member Name" required>
+        <input name="role" placeholder="Role" required>
+        <input name="expenditure" placeholder="Expenditure" required>
+        <button type="submit">Add Committee Member</button>
+    </form>
 
-<h2>Committee Members</h2>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Role</th>
-        <th>Expenditure</th>
-        <th>Actions</th>
-    </tr>
+    <ul>
     {% for c in committee %}
-    <tr>
-        <td>{{ c.name }}</td>
-        <td>{{ c.role }}</td>
-        <td>{{ c.expenditure }}</td>
-        <td>
-            <a href="{{ url_for('edit_committee', id=c.id) }}">Edit</a>
-            <a href="{{ url_for('delete_committee', id=c.id) }}">Delete</a>
-        </td>
-    </tr>
+        <li>{{ c.member_name }} - {{ c.role }}
+            <form action="/update_committee/{{c.id}}" method="POST">
+                <input name="member_name" value="{{c.member_name}}">
+                <input name="role" value="{{c.role}}">
+                <input name="expenditure" value="{{c.expenditure}}">
+                <button type="submit">Update</button>
+            </form>
+            <a href="/delete_committee/{{c.id}}">Delete</a>
+        </li>
     {% endfor %}
-</table>
+    </ul>
+
+    <a href="/home">Back to Home</a>
 </body>
 </html>
