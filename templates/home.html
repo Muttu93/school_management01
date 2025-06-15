@@ -1,23 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Welcome - School Management</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+<head><title>Home</title></head>
 <body>
-    <div class="nav">
-        <a href="{{ url_for('students') }}">Students</a>
-        <a href="{{ url_for('staff') }}">Staff</a>
-        <a href="{{ url_for('committee') }}">Committee</a>
-        <a href="{{ url_for('finance') }}">Finance</a>
-        <a href="{{ url_for('logout') }}">Logout</a>
-    </div>
-
-    <div class="content">
-        <h1>Welcome to Shri Swami Vivekanand Vidyavardhak Sangh Golasangi</h1>
-        <p>Empowering young minds with holistic education, blending academics, values, and creativity to shape the leaders of tomorrow.</p>
-        <p>At our institution, we focus on academic excellence along with extra-curricular development, sportsmanship, and moral values to create well-rounded individuals prepared for the future world.</p>
-    </div>
+    <h2>Welcome to Shri Swami Vivekanand Vidyavardhak Sangh Golasangi</h2>
+    <p>This is a modern AI-powered School Management System designed to handle all aspects of student, staff, committee, and finance records.</p>
+    <a href="/students">Manage Students</a> |
+    <a href="/staff">Manage Staff</a> |
+    <a href="/committee">Manage Committee</a> |
+    <a href="/finance">Manage Finance</a> |
+    <a href="/logout">Logout</a>
 </body>
 </html>
