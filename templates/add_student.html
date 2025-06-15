@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add/Edit Student</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="nav">
+        <a href="{{ url_for('students') }}">Back to Students</a>
+    </div>
+
+    <h2>{% if student %}Edit Student{% else %}Add Student{% endif %}</h2>
+    <form method="POST">
+        <input type="text" name="name" placeholder="Student Name" value="{{ student.name if student else '' }}" required><br>
+        <input type="text" name="standard" placeholder="Standard" value="{{ student.standard if student else '' }}" required><br>
+        <input type="text" name="fees_paid" placeholder="Fees Paid (Yes/No)" value="{{ student.fees_paid if student else '' }}" required><br>
+        <input type="text" name="activity" placeholder="Activities" value="{{ student.activity if student else '' }}"><br>
+        <input type="text" name="marks" placeholder="Marks" value="{{ student.marks if student else '' }}"><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
