@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Staff</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h2>Edit Staff</h2>
+  <form method="POST">
+    <input type="text" name="name" value="{{ staff.name }}" required>
+    <input type="text" name="subject" value="{{ staff.subject }}" required>
+    <input type="number" name="salary" value="{{ staff.salary }}" required>
+    <input type="text" name="attendance" value="{{ staff.attendance }}">
+    <button type="submit">Update</button>
+  </form>
+</body>
+</html>
