@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add/Edit Finance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="nav">
+    <a href="{{ url_for('finance') }}">Back to Finance</a>
+</div>
+
+<h2>{% if finance %}Edit Finance Record{% else %}Add Finance Record{% endif %}</h2>
+<form method="POST">
+    <input type="text" name="total_income" placeholder="Total Income" value="{{ finance.total_income if finance else '' }}" required><br>
+    <input type="text" name="total_expense" placeholder="Total Expense" value="{{ finance.total_expense if finance else '' }}" required><br>
+    <input type="text" name="description" placeholder="Description" value="{{ finance.description if finance else '' }}"><br>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>
