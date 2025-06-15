@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import webbrowser
-import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///school.db'
@@ -200,9 +199,9 @@ def delete_finance(id):
     db.session.commit()
     return redirect(url_for('finance'))
 
-# Main run
+# Run with auto browser open
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # Auto create school.db
-    webbrowser.open('http://127.0.0.1:5000/')  # Auto open browser
+    webbrowser.open('http://127.0.0.1:5000/')  # Auto browser open
     app.run(debug=True)
