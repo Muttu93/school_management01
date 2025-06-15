@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="home-page">
+  <div class="nav">
+    <h1>Shri Swami Vivekanand Vidyavardhak Sangh, Golasangi</h1>
+    <div class="nav-links">
+      <a href="{{ url_for('students') }}">Students</a>
+      <a href="{{ url_for('staff') }}">Staff</a>
+      <a href="{{ url_for('committee') }}">Committee</a>
+      <a href="{{ url_for('finance') }}">Finance</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+  </div>
+  <div class="content-box">
+    <h2>Welcome to our Institution</h2>
+    <p>
+      Shri Swami Vivekanand Vidyavardhak Sangh, Golasangi is committed to delivering quality education to rural children,
+      empowering them with knowledge, values, and a foundation for excellence.
+      We focus on holistic development through academics, sports, and co-curricular activities.
+    </p>
+    <p>
+      Our mission is to nurture every child’s potential, provide world-class learning facilities, and shape them into future-ready citizens.
+      With passionate teachers and strong community support, we strive to make learning joyful and impactful.
+    </p>
+  </div>
+</body>
+</html>
