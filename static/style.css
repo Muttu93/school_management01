@@ -1,60 +1,46 @@
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #d3cce3, #e9e4f0);
-    text-align: center;
+    background-color: #f7f7f7;
     padding: 20px;
 }
 
-h1, h2 {
-    color: #4b0082;
+h2 {
+    color: #2c3e50;
 }
 
-.nav {
+form {
     margin-bottom: 20px;
 }
 
-.nav a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: #4b0082;
-    font-weight: bold;
-}
-
-table {
-    margin: 0 auto;
-    border-collapse: collapse;
-    width: 80%;
-}
-
-th, td {
-    border: 1px solid #999;
-    padding: 10px;
-    background-color: #f0f0f0;
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #4b0082;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
-
-input {
+input, button {
     padding: 8px;
     margin: 5px;
 }
 
-.msg {
-    color: red;
-    margin-top: 10px;
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
 
-.login-container {
-    width: 300px;
-    margin: 100px auto;
-    padding: 20px;
-    border: 2px solid #4b0082;
-    border-radius: 10px;
-    background-color: #fff;
+button:hover {
+    background-color: #2980b9;
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: white;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
 }
