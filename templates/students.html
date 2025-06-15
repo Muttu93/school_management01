@@ -1,40 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Students - School Management</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+<head><title>Students</title></head>
 <body>
-    <div class="nav">
-        <a href="{{ url_for('home') }}">Home</a>
-        <a href="{{ url_for('add_student') }}">Add Student</a>
-        <a href="{{ url_for('logout') }}">Logout</a>
-    </div>
+    <h2>Students</h2>
+    <form action="/add_student" method="POST">
+        <input name="name" placeholder="Name" required>
+        <input name="standard" placeholder="Standard" required>
+        <label><input type="checkbox" name="admission_fee_paid"> Admission Fee Paid</label>
+        <input name="activities" placeholder="Activities">
+        <input name="marks" placeholder="Marks">
+        <input name="extra_fee" placeholder="Extra Fee">
+        <input name="parent_notification" placeholder="Parent Notification">
+        <input name="attendance" placeholder="Attendance">
+        <button type="submit">Add Student</button>
+    </form>
 
-    <h2>Student List</h2>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Standard</th>
-            <th>Fees Paid</th>
-            <th>Activity</th>
-            <th>Marks</th>
-            <th>Actions</th>
-        </tr>
-        {% for student in students %}
-        <tr>
-            <td>{{ student.name }}</td>
-            <td>{{ student.standard }}</td>
-            <td>{{ student.fees_paid }}</td>
-            <td>{{ student.activity }}</td>
-            <td>{{ student.marks }}</td>
-            <td>
-                <a href="{{ url_for('edit_student', id=student.id) }}">Edit</a>
-                <a href="{{ url_for('delete_student', id=student.id) }}">Delete</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <ul>
+    {% for s in students %}
+        <li>{{ s.name }} - {{ s.standard }}
+            <form action="/update_student/{{s.id}}" method="POST">
+                <input name="name" value="{{s.name}}">
+                <input name="standard" value="{{s.standard}}">
+                <label><input type="checkbox" name="admission_fee_paid" {% if s.admission_fee_paid %}checked{% endif %}> Fee Paid</label>
+                <input name="activities" value="{{s.activities}}">
+                <input name="marks" value="{{s.marks}}">
+                <input name="extra_fee" value="{{s.extra_fee}}">
+                <input name="parent_notification" value="{{s.parent_notification}}">
+                <input name="attendance" value="{{s.attendance}}">
+                <button type="submit">Update</button>
+            </form>
+            <a href="/delete_student/{{s.id}}">Delete</a>
+        </li>
+    {% endfor %}
+    </ul>
 </body>
 </html>
