@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Finance Summary</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h2>School Finance Summary</h2>
+  <table>
+    <tr><th>Total Fees Collected:</th><td>₹ {{ fees }}</td></tr>
+    <tr><th>Total Expenses:</th><td>₹ {{ expenses }}</td></tr>
+    <tr><th>Annual Turnover:</th><td>₹ {{ turnover }}</td></tr>
+  </table>
+</body>
+</html>
